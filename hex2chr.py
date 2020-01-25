@@ -1,24 +1,24 @@
 #!/usr/bin/python
 
-# Hex to char converter, version 1.1
+# Hex to char converter, version 1.2
 
 import sys
 
 verbose = True
+splt = []
 
-if len(sys.argv) < 2:
+# Check options
+for opt in sys.argv:
+
+    try:
+        chr(int(opt,16))
+        splt.append(opt)
+    except:
+        if opt == '-s':
+            verbose = False
+if len(splt) < 1:
     string = input('Hex string (space separated): ')
     splt = string.split(' ')
-else:
-    splt = []
-    for opt in sys.argv:
-
-        try:
-            chr(int(opt,16))
-            splt.append(opt)
-        except:
-            if opt == '-s':
-                verbose = False
 
 new_str = ''
 
