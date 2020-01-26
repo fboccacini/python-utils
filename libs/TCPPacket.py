@@ -2,6 +2,20 @@
 import socket
 import struct
 
+
+# Validates a given IP address
+def validate_ip(addr):
+    octets = addr.split('.')
+
+    if len(octets) != 4:
+        return False
+
+    for octet in octets:
+        if int(octet) < 0 or int(octet) > 255:
+            return False
+
+    return True
+
 class TCPPacket:
 
  def __init__(self, dport, sport, dst, src, data = ''):
@@ -107,7 +121,7 @@ class TCPPacket:
   print(str(msg))
   # loop taking 2 characters at a time
   for i in msg: #range(0, len(msg), 1):
-   
+
    a = ord(chr(i))
    b = ord(chr(i))
    s = s + (a+(b << 8))

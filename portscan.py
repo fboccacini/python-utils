@@ -3,27 +3,11 @@
 # Port scanner v1.0
 '''
 Usage portscan.py [target address]
-    If no target is given own will be used
+    If no target is given own address will be used
 '''
 
 import sys
-import time
 import socket
-
-from libs import TCPPacket
-
-# Validates a given IP address
-def validate_ip(addr):
-    octets = addr.split('.')
-
-    if len(octets) != 4:
-        return False
-
-    for octet in octets:
-        if int(octet) < 0 or int(octet) > 255:
-            return False
-
-    return True
 
 # Get own current address
 def get_ip():
@@ -61,10 +45,12 @@ print('Scanning ' + target + ' from ' + own_ip + '..')
 
 for port in range(1,65536):
 
+    # Open socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(1)
     info = 'Trying port ' + str(port)
     print(info, end='')
+    # If it connects successfully the port is open
     try:
         reply = s.connect_ex((target, int(port)))
         s.shutdown(socket.SHUT_RDWR)
@@ -74,18 +60,3 @@ for port in range(1,65536):
         print("\b"  * len(info), end='')
     finally:
         s.close()
-
-    # pkt = TCPPacket.TCPPacket(port,65530,target,own_ip,'Blabla')
-    # pkt.assemble_tcp_fields()
-    # print(pkt.raw)
-    # s.sendall(pkt.raw)
-    # print(str(s))
-    # reply = s.sendall(b'blabla')
-    # reply = s.recv(131072) # 131072
-
-
-    # if reply == 0:
-    #     print('Port ' + str(port) + ' is open.' )
-    #     time.sleep(1)
-    # else:
-    #     print('Port ' + str(port) + ' is closed.' )
