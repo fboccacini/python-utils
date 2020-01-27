@@ -9,6 +9,19 @@ Usage portscan.py [target address]
 import sys
 import socket
 
+# Validates a given IP address
+def validate_ip(addr):
+    octets = addr.split('.')
+
+    if len(octets) != 4:
+        return False
+
+    for octet in octets:
+        if int(octet) < 0 or int(octet) > 255:
+            return False
+
+    return True
+    
 # Get own current address
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
